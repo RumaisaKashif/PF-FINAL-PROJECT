@@ -44,16 +44,18 @@ int ValidDate(struct Date *validDate) {
     // All other months with 31 days
     return 1;
 }
-
+/*
 int main() {
-    // struct Date myDate = {2023, 11, 21};  // Example date
-    // int isValid = ValidDate(&myDate);
+    struct Date myDate = {2023, 11, 21};  // Example date
+    int isValid = ValidDate(&myDate);
 
-    // if (isValid) {
-    //     printf("Date is valid.\n");
-    // } else {
-    //     printf("Date is invalid.\n");
-    // }
+    if (isValid) {
+        printf("Date is valid.\n");
+    } else {
+        printf("Date is invalid.\n");
+    }
 
     return 0;
 }
+*/
+
