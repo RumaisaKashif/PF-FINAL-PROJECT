@@ -104,5 +104,89 @@ int main() {
     // Code to access flight ticket information would go here
 
     return 0;
-  */
 }
+*/
+
+//function to check validity of arrival and departure airport codes
+void airportCodes(char strdep[], int n, char strarr[], int a)
+{
+    //check if length of departure code is restricted to 3 alphabets
+    if (n!=3)
+    {
+        printf("Invalid departure code!\n");
+        return;
+    }
+    //all alphabets must be capital letters in a valid code
+    for (int i=0;i<n;i++)
+    {
+        if (strdep[i]>='A' && strdep[i]<='Z')
+        {
+
+        }
+        else
+        {
+            printf("Invalid departure code!\n");
+            return;
+        }
+    }
+    //check if length of arrival code is restricted to 3 alphabets
+    if (a!=3)
+    {
+        printf("Invalid arrival code!\n");
+        return;
+    }
+    //all alphabets must be capital letters in a valid code
+    for (int i=0;i<a;i++)
+    {
+        if (strarr[i]>='A' && strarr[i]<='Z')
+        {
+
+        }
+        else
+        {
+            printf("Invalid arrival code!\n");
+            return;
+        }
+    }
+    //if the departure code is the same as the arrival code then this is an invalid ticket
+    if (strcmp(strdep, strarr)==0)
+    {
+        printf("Error. Arrival and Departure codes are the same, hence invalid ticket!\n");
+        return;
+    }
+    printf("Valid Departure code is: %s\n", strdep);
+    printf("Valid Arrival code is: %s\n", strarr);
+}//end airportCodes
+
+
+/* Call using:
+
+int main()
+{
+    //declare two character arrays for departure and arrival strings
+    char dep[4], arr[4];
+    //take input for departure code
+    printf("Please enter departure code: \n");
+    scanf("%s", dep);
+    int i=0;
+    //to store length of departure code
+    while (dep[i]!='\0')
+    {
+        i++;
+    }
+    //take input for departure code
+    printf("Please enter arrival code: \n");
+    scanf("%s", arr);
+    int j=0;
+    //to store length of departure code
+    while (dep[j]!='\0')
+    {
+        j++;
+    }
+    //call function
+    airportCodes(dep,i, arr, j);
+    return 0;
+}//end main
+*/
+
+
