@@ -189,4 +189,49 @@ int main()
 }//end main
 */
 
+//row validation function
+void rowValidation(char row[], int n)
+{
+    //chck if row number has exactly 2 characters
+    if (n!=2)
+    {
+        printf("Invalid row number. Invalid ticket.");
+        return;
+    }
+    for (int i=0;i<n;i++)
+    {
+        //check whether each of these 2 characters are digits
+        if (row[i]>='0' && row[i]<='9')
+        {
+            
+        }
+        else
+        {
+            printf("Invalid row number. Invalid ticket.\n");
+            return;
+        }
+    }
+    printf("Row number is: %s\n", row);
+    printf("This is a valid row number.\n");
+}//end rowValidation
+
+/*
+Call function using
+
+int main()
+{
+    //declare array to store row number
+    char row[3];
+    printf("Enter row number: \n");
+    scanf("%s", row);
+    int l=0;
+    //count number of characters in row number
+    while (row[l]!='\0')
+    {
+        l++;
+    }
+    //call function for validation 
+    rowValidation(row,l);
+}//end main
+*/
 
