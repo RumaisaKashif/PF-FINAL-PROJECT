@@ -68,11 +68,13 @@ int main()
     int isAuthenticated = 0;
 
     // Continuously prompt for password until correct password is entered
-    while (!isAuthenticated) {
+    while (!isAuthenticated) 
+    {
         // Call the function to check and compare passwords
         isAuthenticated = checkPassword();
 
-        if (!isAuthenticated) {
+        if (!isAuthenticated) 
+        {
             // Code to execute if the password is incorrect or does not meet the conditions
             printf("Please try again.\n");
         }
@@ -181,7 +183,8 @@ int main()
 }
 
 //Check and compare passwords
-int checkPassword() {
+int checkPassword() 
+{
     char storedPassword[MAX_PASSWORD_LENGTH] = "Secure123"; 
     char enteredPassword[MAX_PASSWORD_LENGTH];
 
