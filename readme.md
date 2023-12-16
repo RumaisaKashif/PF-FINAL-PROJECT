@@ -19,7 +19,7 @@ The Flight Ticket Management System is a sophisticated software solution designe
   - [Reservation and Cancellation](#reservation-and-cancellation)
   - [Display Reservations](#display-reservations)
 - [Data Structures](#data-structures)
-  - [Character Arrays (Strings)](#character-arrays-(strings))
+  - [Character Arrays](#character-arrays)
   - [Dynamic Memory Allocation](#dynamic-memory-allocation)
 - [Major Problems Faced](#major-problems-faced)
 
@@ -115,7 +115,7 @@ The system offers the ability to view a comprehensive list of all current flight
 
 ## Data Structures
 
-### Character Arrays (Strings)
+### Character Arrays 
 
 Character arrays, commonly referred to as strings, are extensively used in the codebase:
 
