@@ -19,8 +19,8 @@ The Flight Ticket Management System is a sophisticated software solution designe
   - [Reservation and Cancellation](#reservation-and-cancellation)
   - [Display Reservations](#display-reservations)
 - [Data Structures](#data-structures)
-  - [Character Arrays (Strings)](#character-arrays)
-  - [Additional Data Structures](#additional-data-structures)
+  - [Character Arrays (Strings)](#character-arrays-(strings))
+  - [Dynamic Memory Allocation](#dynamic-memory-allocation)
 - [Major Problems Faced](#major-problems-faced)
 
 ## Key Features
@@ -125,7 +125,7 @@ Character arrays, commonly referred to as strings, are extensively used in the c
 
 - **String Manipulation:** Arrays are essential for string operations, crucial for functions such as extracting date components and airport codes from the ticket.
 
-### Dynamic Memory Allocation (malloc)
+### Dynamic Memory Allocation
 
 Dynamic memory allocation through `malloc` is employed to allocate memory for various components:
 
