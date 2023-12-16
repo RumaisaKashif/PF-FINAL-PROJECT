@@ -19,7 +19,7 @@ The Flight Ticket Management System is a sophisticated software solution designe
   - [Reservation and Cancellation](#reservation-and-cancellation)
   - [Display Reservations](#display-reservations)
 - [Data Structures](#data-structures)
-  - [Linked List](#linked-list)
+  - [Character Arrays (Strings)](#character-arrays)
   - [Additional Data Structures](#additional-data-structures)
 - [Major Problems Faced](#major-problems-faced)
 
