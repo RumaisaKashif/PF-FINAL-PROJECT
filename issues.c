@@ -531,8 +531,40 @@ void showMenu()
 // Function to make a reservation
 void makeReservation(struct FlightReservation** head, int* seatCounter)
 {
-    // Code to make a reservation
-    // ...
+    switch (choice) {
+           case 1:
+               makeReservation(&reservations, &seatCounter);
+               break;
+           case 2:
+               cancelReservation(&reservations);
+               break;
+           case 3:
+               displayReservations(reservations);
+               break;
+           case 4:
+               saveToFile(reservations);
+               break;
+           case 5:
+             printf("\nThank you for using the Flight Management System!\n");
+             break;
+          default:
+               printf("\nInvalid choice. Please enter a number between 1 and 5.\n");
+      }
+
+      if (choice != 5) {
+           printf("\nPress Enter to continue...");
+           getChar(); // Wait for user to press Enter
+      }
+
+   } while (choice != 5);
+
+   // Free allocated memory before exiting
+  struct FlightReservation* current = reservations;
+  struct FlightReservation* next;
+  while (current != NULL) {
+       next = current->next;
+        free(current);
+        current = next;
 
     // Sample code to add a reservation to the linked list
     struct FlightReservation* newReservation = (struct FlightReservation*)malloc(sizeof(struct FlightReservation));
