@@ -1,3 +1,7 @@
+//Programmers: Rumaisa Kashif , Areeba Hasnain , Emman Abrar Ali.
+//Flight Management System.
+
+//Basic Library Inlcusions
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
@@ -5,6 +9,8 @@
 #include <ctype.h>
 #include <termios.h>
 #include <unistd.h>
+
+//Defining symbolic names for literal characters.
 
 #define SA 'A'
 #define SB 'B'
@@ -27,7 +33,7 @@ struct FlightReservation {
     char destination[30];
     int seatNumber;
     struct FlightReservation* next;
-};
+};//End of flightReservation Structure 
 
 // Function prototypes
 int checkPassword();
@@ -56,6 +62,8 @@ void cancelReservation(struct FlightReservation** head);
 void displayReservations(struct FlightReservation* head);
 void saveToFile(struct FlightReservation* head);
 
+//Flight Ticket Header Format.
+
 void printHeader() {
     printf("*********************************************************************************\n");
     printf("*###############################################################################*\n");
@@ -76,9 +84,10 @@ void printHeader() {
 
 // Alternative for getch on Mac
 char getChar() {
-    char buf = 0;
-    struct termios old = {0};
-    fflush(stdout);
+    char buf = 0; //Declaring variable buf of type char and giving it an initial value of 0
+    //char buf will help store character taken from input of the user
+    struct termios old = {0}; //Declaring a structure old of type struct termios to store the current terminal settings.
+    fflush(stdout); 
     if (tcgetattr(0, &old) < 0)
         perror("tcsetattr()");
     old.c_lflag &= ~ICANON;
@@ -583,7 +592,7 @@ void showMenu() {
     printf("3. Display Reservations\n");
     printf("4. Save Reservations to File\n");
     printf("5. Exit\n\n");
-}
+}//End Menu 
 
 // Function to make a reservation
 void makeReservation(struct FlightReservation** head, int* seatCounter) {
@@ -592,7 +601,7 @@ void makeReservation(struct FlightReservation** head, int* seatCounter) {
     if (newReservation == NULL) {
         printf("Memory allocation error.\n");
         exit(1);
-    }
+    }//End Make Reservation.
 
     printf("\nEnter Passport Number: ");
     fgets(newReservation->passport, sizeof(newReservation->passport), stdin);
@@ -610,7 +619,7 @@ void makeReservation(struct FlightReservation** head, int* seatCounter) {
     newReservation->seatNumber = (*seatCounter)++;
     newReservation->next = NULL;
 
-    // Add the new reservation to the linked list
+    // Add the new reservation.(ll)
     if (*head == NULL) {
         *head = newReservation;
     } else {
