@@ -96,11 +96,87 @@ char getChar() {
     return (buf);
 }
 
-int main() {
+
    
 // Main Function Starts
 int main()
 {
+     printHeader();
+    printf("\n");
+    printf("\n");
+
+    int isAuthenticated = 0;
+
+    // Password authentication
+    if (!checkPassword()) {
+        printf("Authentication failed. Exiting...\n");
+        return 0;
+    }
+
+    // Test cases
+    char ticket1[] = "20231121ABCDEF25A";
+    char ticket2[] = "20231121DEFGHI26A";
+
+    int first_row, last_row;
+    printf("Enter the number of the first row and the last row: \n");
+    scanf("%d %d", &first_row, &last_row);
+
+    char* date = getDate(ticket1);
+    printf("Date (YYYYMMDD) is: %s\n", date);
+    free(date);
+
+    char* year = getYear(ticket1);
+    printf("Year (YYYY) is: %s\n", year);
+    free(year);
+
+    char* month = getMonth(ticket1);
+    printf("Month (MM) is: %s\n", month);
+    free(month);
+
+    char* day = getDay(ticket1);
+    printf("Day (DD) is: %s\n", day);
+    free(day);
+
+    char* dep = getDepartureCode(ticket1);
+    printf("Departure Airport code is: %s\n", dep);
+    free(dep);
+
+    char* arr = getArrivalCode(ticket1);
+    printf("Arrival Airport code is: %s\n", arr);
+    free(arr);
+
+    int row = getRow(ticket1);
+    printf("Row number is: %d\n", row);
+
+    char seat = getSeatNumber(ticket1);
+    printf("Seat %c\n", seat);
+    printf("Seat type: %s\n", getSeatType(ticket1));
+
+    // Seat and row validation
+    printf("Is valid seat: %s\n", isValidSeat(ticket1, first_row, last_row) ? "true" : "false");
+    printf("Is valid date: %s\n", isValidDate(ticket1) ? "true" : "false");
+    printf("Is valid ticket: %s\n", isValidTicket(ticket1, first_row, last_row) ? "true" : "false");
+    if (!isValidTicket(ticket1, first_row, last_row)) {
+        printf("Invalid Ticket!\n");
+        return 0;
+    }
+
+    // Remaining code for flight reservation system
+    // ...
+
+    return 0;
+}
+
+// Function to check the entered password against the correct password
+int checkPassword() {
+    char enteredPassword[MAX_PASSWORD_LENGTH];
+    char storedPassword[] = "your_password";  // Replace with your actual password
+
+    printf("Enter the password: ");
+    scanf("%s", enteredPassword);
+
+    return strcmp(enteredPassword, storedPassword) == 0;
+}
     printHeader();
     printf("\n");
     printf("\n");
