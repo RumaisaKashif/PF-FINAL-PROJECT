@@ -116,22 +116,36 @@ int main()
 
     int isAuthenticated = 0;
 
-    // Continuously prompt for password until the correct password is entered
-    while (!isAuthenticated) 
-    {
-        // Call the function to check and compare passwords
-        isAuthenticated = checkPassword();
+    // Check password conditions
+    int length = strlen(enteredPassword);
+    int hasUppercase = 0;
+    int hasLowercase = 0;
+    int hasDigit = 0;
 
-        if (!isAuthenticated) 
-        {
-            // Code to execute if the password is incorrect or does not meet the conditions
-            printf("Please try again.\n");
+    for (int i = 0; i < length; ++i) {
+        if (isupper(enteredPassword[i])) {
+            hasUppercase = 1;
+        } else if (islower(enteredPassword[i])) {
+            hasLowercase = 1;
+        } else if (isdigit(enteredPassword[i])) {
+            hasDigit = 1;
         }
     }
 
-    // Code to execute if the password is correct and meets the conditions
-    printf("Welcome to the system! Accessing flight ticket information...\n");
+    // Check if all conditions are met
+    if (length >= 8 && hasUppercase && hasLowercase && hasDigit) {
+        if (strcmp(enteredPassword, storedPassword) == 0) {
+            printf("Password is correct. Access granted.\n");
+            return 1; // Passwords match and conditions are met
+        } else {
+            printf("Incorrect password. Access denied.\n");
+        }
+    } else {
+        printf("Password does not meet the requirements. Access denied.\n");
+    }
 
+    return 0; // Passwords do not match or conditions are not met
+}
     // test cases
     char ticket1[] = "20231121ABCDEF25A";
     char ticket2[] = "20231121DEFGHI26A";
