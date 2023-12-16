@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <ctype.h>
-
+// For Windows compatibility
 #ifdef _WIN32
 #include <conio.h>
 #else
@@ -11,28 +6,23 @@
 #include <unistd.h>
 #endif
 
+// Seat constants
 #define SA 'A'
 #define SB 'B'
 #define SC 'C'
 #define SD 'D'
 #define SE 'E'
 #define SF 'F'
+
+// Seat type constants
 #define WINDOW "Window"
 #define AISLE "Aisle"
 #define MIDDLE "Middle"
+
+// Maximum length for the password
 #define MAX_PASSWORD_LENGTH 50
 
 // Ticket format: (YYYY)(MM)(DD)(DEP)(ARR)(ROW)(SEAT)
-
-// Structure to store reservation details
-struct FlightReservation {
-    char passport[10];
-    char name[30];
-    char email[30];
-    char destination[30];
-    int seatNumber;
-    struct FlightReservation* next;
-};
 
 // Function prototypes
 int checkPassword();
@@ -56,36 +46,17 @@ bool isValidFormat(char* ticket);
 void changeSeat(char* ticket, char* row_num, char seat);
 char* changeDate(char* ticket, char* day, char* month, char* year);
 void showMenu();
-void makeReservation(struct FlightReservation** head, int* seatCounter);
-void cancelReservation(struct FlightReservation** head);
-void displayReservations(struct FlightReservation* head);
-void saveToFile(struct FlightReservation* head);
+void makeReservation();
+void cancelReservation();
+void displayReservations();
+void saveToFile();
 
-void printHeader() {
-    printf("*********************************************************************************\n");
-    printf("*###############################################################################*\n");
-    printf("*#*****************************************************************************#*\n");
-    printf("*#*                                                                           *#*\n");
-    printf("*#*                                                                           *#*\n");
-    printf("*#*                                                                           *#*\n");
-    printf("*#*                                                                           *#*\n");
-    printf("*#*                           FLIGHT TICKET SYSTEM                            *#*\n");
-    printf("*#*                                                                           *#*\n");
-    printf("*#*                                                                           *#*\n");
-    printf("*#*                                                                           *#*\n");
-    printf("*#*                                                                           *#*\n");
-    printf("*#*****************************************************************************#*\n");
-    printf("*###############################################################################*\n");
-    printf("*********************************************************************************\n");
-}
-
-// Alternative for getch on Windows
-#ifdef _WIN32
+// Function to get a character from the console
 char getChar() {
+    // For Windows compatibility
+    #ifdef _WIN32
     return _getch();
-}
-#else
-char getChar() {
+    #else
     char buf = 0;
     struct termios old = {0};
     fflush(stdout);
@@ -104,9 +75,69 @@ char getChar() {
     if (tcsetattr(0, TCSADRAIN, &old) < 0)
         perror ("tcsetattr ~ICANON");
     return (buf);
+    #endif
 }
-#endif
 
+void printHeader() {
+    // Print a header for the flight ticket system
+    printf("*********************************************************************************\n");
+    printf("*###############################################################################*\n");
+    printf("*#*****************************************************************************#*\n");
+    printf("*#*                                                                           *#*\n");
+    printf("*#*                                                                           *#*\n");
+    printf("*#*                                                                           *#*\n");
+    printf("*#*                                                                           *#*\n");
+    printf("*#*                           FLIGHT TICKET SYSTEM                            *#*\n");
+    printf("*#*                                                                           *#*\n");
+    printf("*#*                                                                           *#*\n");
+    printf("*#*                                                                           *#*\n");
+    printf("*#*                                                                           *#*\n");
+    printf("*#*****************************************************************************#*\n");
+    printf("*###############################################################################*\n");
+    printf("*********************************************************************************\n");
+}
+
+int main() {
+    // Print the system header
+    printHeader();
+
+    // Check if the entered password is correct
+    if (checkPassword()) {
+        // If the password is correct, display the menu and perform actions
+        int choice;
+        do {
+            showMenu();
+            printf("Enter your choice: ");
+            scanf("%d", &choice);
+
+            // Perform actions based on user choice
+            switch (choice) {
+                case 1:
+                    makeReservation();
+                    break;
+                case 2:
+                    cancelReservation();
+                    break;
+                case 3:
+                    displayReservations();
+                    break;
+                case 4:
+                    saveToFile();
+                    break;
+                case 5:
+                    printf("Exiting the Flight Ticket System. Goodbye!\n");
+                    break;
+                default:
+                    printf("Invalid choice. Please enter a valid option.\n");
+            }
+
+        } while (choice != 5);  // Continue until the user chooses to exit
+    } else {
+        printf("Incorrect password. Access denied.\n");
+    }
+
+    return 0;
+}
 // Main Function Starts
 int main()
 {
