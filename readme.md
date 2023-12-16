@@ -1,6 +1,6 @@
 # Flight Ticket Management System
 
-The Flight Ticket Management System is a sophisticated software solution designed to streamline the process of booking and managing flight tickets. This system incorporates various features to enhance user experience, ensure data accuracy, and maintain the integrity of flight information.
+The Flight Ticket Management System is a sophisticated software solution designed to streamline the process of managing flight tickets. This system incorporates various features to enhance user experience, ensure data accuracy, and maintain the integrity of flight information.
 
 ## Contributors
 
