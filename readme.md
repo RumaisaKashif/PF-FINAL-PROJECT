@@ -132,4 +132,3 @@ Dynamic memory allocation through `malloc` is employed to allocate memory for va
 - Memory for date, year, month, day, departure code, arrival code, and new ticket strings is allocated using dynamic memory allocation.
 
 ## Major Problems Faced
-
