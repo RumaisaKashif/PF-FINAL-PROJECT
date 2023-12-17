@@ -15,7 +15,6 @@ This version is specifically designed for the MacBook we ran the program on beca
 #include <unistd.h>
 
 // Defining symbolic names for literal characters.
-
 #define SA 'A'
 #define SB 'B'
 #define SC 'C'
