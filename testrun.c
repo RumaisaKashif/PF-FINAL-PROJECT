@@ -1,21 +1,10 @@
 /*
+
 Team Name: StratoByte Syndicate
 Programmers: Rumaisa Kashif, Areeba Hasnain, Emman Abrar Ali.
 Flight Management System
 This version is specifically designed for the MacBook we ran the program on because certain windows libraries for C language are not compatible on MacOs
-bfkebfkqfqebvfejlqbflqwbvglegvlew
-fklaebvlewlvkeklkdn bklsfnb;ls k
-fcjklwnflwknvklewnv;kewnb;ewnb;rsnm
-cnflawnvolewnbgvewngvowengew4
-cnfjkwnloeqbnvgowengvowe
-vngwlenvlwenbvgownbiprenbnderlpnbdnbl
-vjewnlvognberslnbvlrdenlob
-vnkljsdnv ldsnvlsnvlsnv
-cv nasklenvlksenvlsnvblkdrsnbvl
-fhaeoibfveowfhoweghvoirhgoer
-vnefwovgnsweiohgvoweg
-efbkewbkvgwesngvlknsgvlrw
-ejkfbeqbfoewbobwso
+
 */
 
 // Basic Library Header Inclusions
