@@ -87,23 +87,28 @@ void printHeader() {
 }
 
 // Alternative for getch on Mac
-char getChar() {
-    char buf = 0; // Declaring variable buf of type char and giving it an initial value of 0
-    //char buf will help store character taken from input of the user
+char getChar() 
+{
+    char buf = 0; // Declaring variable buf of type char and giving it an initial value of 0. This will help store character taken from input of the user
     struct termios old = {0}; //Declaring a structure old of type struct termios to store the current terminal settings.
     fflush(stdout); 
+    
     if (tcgetattr(0, &old) < 0)
         perror("tcsetattr()");
+    
     old.c_lflag &= ~ICANON;
     old.c_lflag &= ~ECHO;
     old.c_cc[VMIN] = 1;
     old.c_cc[VTIME] = 0;
+    
     if (tcsetattr(0, TCSANOW, &old) < 0)
         perror("tcsetattr ICANON");
     if (read(0, &buf, 1) < 0)
         perror ("read()");
+    
     old.c_lflag |= ICANON;
     old.c_lflag |= ECHO;
+    
     if (tcsetattr(0, TCSADRAIN, &old) < 0)
         perror ("tcsetattr ~ICANON");
     return (buf);
