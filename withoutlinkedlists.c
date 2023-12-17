@@ -124,7 +124,9 @@ char getChar() {
     return buf;
 }
 
-//Main Function Starts 
+// Function to display menu options
+void showMenu();
+
 int main()
 {
     printHeader();
@@ -161,136 +163,71 @@ int main()
     printf("Date (YYYYMMDD) is: %s\n", date);
     free(date);
     
-    char* year= getYear(ticket1);
-    printf("Year (YYYY) is: %s\n", year);
-    free(year);
-    
-    char* month= getMonth(ticket1);
-    printf("Month (MM) is: %s\n", month);
-    free(month);
-    
-    char* day= getDay(ticket1);
-    printf("Day (DD) is: %s\n", day);
-    free(day);
-    
-    char* dep= getDepartureCode(ticket1);
-    printf("Departure Aiport code is: %s\n", dep);
-    free(dep);
-    
-    char* arr= getArrivalCode(ticket1);
-    printf("Arrival Airport code is: %s\n", arr);
-    free(arr);
-    
-    int row= getRow(ticket1);
-    printf("Row number is: %d\n", row);
-    
-    char seat= getSeatNumber(ticket1);
-    printf("Seat %c\n", seat);
-    printf("Seat type: %s\n", getSeatType(ticket1));
-    
-    //Seat and row validation
-    printf("Is valid seat: %s\n", isValidSeat(ticket1, first_row, last_row) ? "true" : "false");
-    printf("Is valid date: %s\n", isValidDate(ticket1) ? "true" : "false");
-    printf("Is valid ticket: %s\n", isValidTicket(ticket1, first_row, last_row) ? "true" : "false");
-    if (!isValidTicket(ticket1, first_row, last_row))
-    {
-        printf("Invalid Ticket!\n");
-        return 0;
-    }
-    
-    printf("Adjacent: %s\n", isAdjacent(ticket1, ticket2) ? "true" : "false");
-    
-    printf("Behind: %s\n", isBehind(ticket1, ticket2) ? "true" : "false");
-    
-    printf("Connecting flight: %s\n", isConnectingFlight(ticket1, ticket2) ? "true" : "false");
-    
-    char seatchange, new_seat;
-    char new_row[3];
-    printf("Press 's' to change seat, press any other alphabet to skip.\n");
-    scanf(" %c", &seatchange);
-    if (seatchange=='s')
-    {
-        printf("Enter new row number:\n");
-        scanf(" %s", new_row);
-        printf("Enter new seat number:\n");
-        scanf(" %c", &new_seat);
-        changeSeat(ticket1, new_row, new_seat);
-        //check if new ticket is a valid ticket
-        if (!isValidTicket(ticket1, first_row, last_row))
-        {
-            printf("Invalid New Ticket!\n");
-            return 0;
+    // ... (rest of your code)
+
+    // Display menu and handle reservations
+    struct FlightReservation* reservations = NULL; // Head of the linked list
+    int seatCounter = 1; // Counter for seat numbers
+
+    int choice;
+    do {
+        system("cls"); // Clear the console
+        showMenu(); // Display menu options
+        printf("Enter your choice (1-5): ");
+        scanf("%d", &choice);
+        fflush(stdin); // Clear input buffer
+
+        switch (choice) {
+            case 1:
+                makeReservation(&reservations, &seatCounter);
+                break;
+            case 2:
+                cancelReservation(&reservations);
+                break;
+            case 3:
+                displayReservations(reservations);
+                break;
+            case 4:
+                saveToFile(reservations);
+                break;
+            case 5:
+                printf("\nThank you for using the Flight Management System!\n");
+                break;
+            default:
+                printf("\nInvalid choice. Please enter a number between 1 and 5.\n");
         }
-        printf("New ticket number is: %s\n", ticket1);
-    }
-    
-    char datechange;
-    char new_year[5], new_month[3], new_day[3];
-    printf("Press 'd' to change date, press any other alphabet to skip.\n");
-    scanf(" %c", &datechange);
-    if (datechange=='d')
-    {
-        printf("Enter updated day:\n");
-        scanf(" %s", new_day);
-        printf("Enter updated month:\n");
-        scanf(" %s", new_month);
-        printf("Enter updated year:\n");
-        scanf(" %s", new_year);
-        char* newTicketNumber2= changeDate(ticket1, new_day, new_month, new_year);
-        //check if new ticket is a valid ticket
-        if (!isValidTicket(newTicketNumber2, first_row, last_row))
-        {
-            printf("Invalid New Ticket!\n");
+
+        if (choice != 5) {
+            printf("\nPress Enter to continue...");
+            getChar(); // Wait for user to press Enter
         }
-        printf("New ticket number is: %s\n", newTicketNumber2);
-        free(newTicketNumber2);
-    }
-     struct FlightReservation* reservations = NULL; // Head of the linked list
-   int seatCounter = 1; // Counter for seat numbers
 
-   int choice;
-   do {
-       system("cls"); // Clear the console
-       showMenu(); // Display menu options
-       printf("Enter your choice (1-5): ");
-       scanf("%d", &choice);
-       fflush(stdin); // Clear input buffer
+    } while (choice != 5);
 
-       switch (choice) {
-           case 1:
-               makeReservation(&reservations, &seatCounter);
-               break;
-           case 2:
-               cancelReservation(&reservations);
-               break;
-           case 3:
-               displayReservations(reservations);
-               break;
-           case 4:
-               saveToFile(reservations);
-               break;
-           case 5:
-             printf("\nThank you for using the Flight Management System!\n");
-             break;
-          default:
-               printf("\nInvalid choice. Please enter a number between 1 and 5.\n");
-      }
-
-      if (choice != 5) {
-           printf("\nPress Enter to continue...");
-           getChar(); // Wait for user to press Enter
-      }
-
-   } while (choice != 5);
-
-   // Free allocated memory before exiting
-  struct FlightReservation* current = reservations;
-  struct FlightReservation* next;
-  while (current != NULL) {
-       next = current->next;
+    // Free allocated memory before exiting
+    struct FlightReservation* current = reservations;
+    struct FlightReservation* next;
+    while (current != NULL) {
+        next = current->next;
         free(current);
         current = next;
-   }
+    }
+    
+    return 0;
+}
+
+// Function to display menu options
+void showMenu() {
+    printf("**********************************************\n");
+    printf("        Flight Management System Menu\n");
+    printf("**********************************************\n\n");
+    printf("1. Make a Reservation\n");
+    printf("2. Cancel a Reservation\n");
+    printf("3. Display Reservations\n");
+    printf("4. Save Reservations to File\n");
+    printf("5. Exit\n\n");
+}
+
 }//Main Function Ends
 
 //Check and compare passwords
@@ -599,18 +536,6 @@ char* changeDate(char* ticket, char* day, char* month, char* year)
             ticket[8], ticket[9], ticket[10], ticket[11], ticket[12], ticket[13], ticket[14], ticket[15], ticket[16]);
     return new_ticket;
     free(new_ticket);
-}
-
-// Display menu options
-void showMenu() {
-    printf("**********************************************\n");
-    printf("        Flight Management System Menu\n");
-    printf("**********************************************\n\n");
-    printf("1. Make a Reservation\n");
-    printf("2. Cancel a Reservation\n");
-    printf("3. Display Reservations\n");
-    printf("4. Save Reservations to File\n");
-    printf("5. Exit\n\n");
 }
 
 // Function to make a reservation
