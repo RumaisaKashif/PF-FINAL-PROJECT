@@ -22,6 +22,8 @@
 #define AISLE "Aisle"
 #define MIDDLE "Middle"
 #define MAX_PASSWORD_LENGTH 50
+#define MAX_SEATS 100
+int seatAvailability[MAX_SEATS] = {0};// Global array to keep track of assigned seats
 
 // Ticket format: (YYYY)(MM)(DD)(DEP)(ARR)(ROW)(SEAT)
 
@@ -84,7 +86,7 @@ void printHeader() {
 
 // Alternative for getch on Mac
 char getChar() {
-    char buf = 0; //Declaring variable buf of type char and giving it an initial value of 0
+    char buf = 0; // Declaring variable buf of type char and giving it an initial value of 0
     //char buf will help store character taken from input of the user
     struct termios old = {0}; //Declaring a structure old of type struct termios to store the current terminal settings.
     fflush(stdout); 
@@ -105,7 +107,7 @@ char getChar() {
     return (buf);
 }
 
-//Main Function Starts 
+// Main Function Starts 
 int main()
 {
     printHeader();
@@ -601,25 +603,41 @@ void makeReservation(struct FlightReservation** head, int* seatCounter) {
     if (newReservation == NULL) {
         printf("Memory allocation error.\n");
         exit(1);
-    }//End Make Reservation.
+    }
 
     printf("\nEnter Passport Number: ");
-    fgets(newReservation->passport, sizeof(newReservation->passport), stdin);
+    scanf("%9s", newReservation->passport);
 
     printf("Enter Full Name: ");
-    fgets(newReservation->name, sizeof(newReservation->name), stdin);
+    scanf(" %[^\n]s", newReservation->name);
 
     printf("Enter Email Address: ");
-    fgets(newReservation->email, sizeof(newReservation->email), stdin);
+    scanf(" %[^\n]s", newReservation->email);
 
     printf("Enter Destination: ");
-    fgets(newReservation->destination, sizeof(newReservation->destination), stdin);
+    scanf(" %[^\n]s", newReservation->destination);
 
-    // Assign a seat number
-    newReservation->seatNumber = (*seatCounter)++;
+    // Find an available seat
+    int seatNumber = -1;
+    for (int i = 1; i < MAX_SEATS; ++i) {
+        if (seatAvailability[i] == 0) {
+            seatNumber = i;
+            seatAvailability[i] = 1; // Mark the seat as taken
+            break;
+        }
+    }
+
+    if (seatNumber == -1) {
+        printf("\nSorry, all seats are taken.\n");
+        free(newReservation);
+        return;
+    }
+
+    // Assign the seat number to the new reservation
+    newReservation->seatNumber = seatNumber;
     newReservation->next = NULL;
 
-    // Add the new reservation.(ll)
+    // Add the new reservation to the linked list
     if (*head == NULL) {
         *head = newReservation;
     } else {
@@ -631,7 +649,7 @@ void makeReservation(struct FlightReservation** head, int* seatCounter) {
     }
 
     printf("\nReservation Successful!");
-    printf("\nYour Seat Number is: Seat A-%d\n", newReservation->seatNumber);
+    printf("\nYour Seat Number is: Seat %d A\n", newReservation->seatNumber);
 }
 
 // Function to cancel a reservation
@@ -643,7 +661,7 @@ void cancelReservation(struct FlightReservation** head) {
 
     char passportToCancel[10];
     printf("\nEnter Passport Number to cancel reservation: ");
-    gets(passportToCancel);
+    scanf("%9s", passportToCancel);
 
     struct FlightReservation* current = *head;
     struct FlightReservation* prev = NULL;
