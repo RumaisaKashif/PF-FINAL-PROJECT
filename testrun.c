@@ -6,6 +6,22 @@ Flight Management System
 This version is specifically designed for the MacBook we ran the program on because certain windows libraries for C language are not compatible on MacOs
 
 */
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+#define SA 'A'
+#define SB 'B'
+#define SC 'C'
+#define SD 'D'
+#define SE 'E'
+#define SF 'F'
+#define WINDOW "Window"
+#define AISLE "Aisle"
+#define MIDDLE "Middle"
+#define MAX_PASSWORD_LENGTH 50
 
 // Basic Library Header Inclusions
 #include <stdio.h>
