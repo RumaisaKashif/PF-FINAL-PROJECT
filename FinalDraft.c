@@ -120,10 +120,12 @@ struct FlightReservation* reservationList = NULL; // Initialize an empty list of
     int choice;
     int first_row = 1; // Initialize the first row
     int last_row = 20; // Initialize the last row
-
     do {
         system("cls"); // Clear the console
         printHeader();  // Display the header
+        while (!checkPassword()) {
+            printf("Please try again.\n\n");
+        }
         showMenu();     // Display menu options
 
         printf("Enter your choice (1-6): ");
@@ -178,7 +180,9 @@ int checkPassword()
     char enteredPassword[MAX_PASSWORD_LENGTH];
 
     // Prompt user for password
-    printf("Enter your password: ");
+    printf("Please enter the secure password to proceed. "
+            "This password is restricted to authorized management personnel only.\n"
+            "If you are not authorized, please exit this prompt immediately.\n\n");
     fgets(enteredPassword, MAX_PASSWORD_LENGTH, stdin);
 
     // Remove newline character from entered password
