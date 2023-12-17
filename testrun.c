@@ -189,13 +189,12 @@ int main()
     }
     
     printf("Adjacent: %s\n", isAdjacent(ticket1, ticket2) ? "true" : "false");
-    
     printf("Behind: %s\n", isBehind(ticket1, ticket2) ? "true" : "false");
-    
     printf("Connecting flight: %s\n", isConnectingFlight(ticket1, ticket2) ? "true" : "false");
     
     char seatchange, new_seat;
     char new_row[3];
+    
     printf("Press 's' to change seat, press any other alphabet to skip.\n");
     scanf(" %c", &seatchange);
     if (seatchange=='s')
@@ -289,7 +288,7 @@ int main()
    }
 }// Main Function Ends
 
-//Check and compare passwords
+// Function to check and compare passwords
 int checkPassword() 
 {
     char storedPassword[MAX_PASSWORD_LENGTH] = "Secure123"; 
