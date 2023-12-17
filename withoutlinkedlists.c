@@ -351,6 +351,209 @@ int isValidSeat(char* ticket, int first_row, int last_row) {
 }
 
 // Function to check if a character is a valid date (YYYYMMDD)
-int isValidDate(char* ticket) {
-    int len = strlen(ticket);
-    return len == 
+int isValidDateChar(char c, int position) {
+    switch (position) {
+        case 0: // First digit of year (thousands)
+            return isDigit(c) && c >= '1' && c <= '9';
+        case 1: // Second digit of year (hundreds)
+        case 2: // Third digit of year (tens)
+        case 3: // Fourth digit of year (units)
+            return isDigit(c);
+        case 4: // First digit of month
+            return isValidMonth(&c);
+        case 5: // Second digit of month
+            return isDigit(c) || (c == '1' && isValidMonth("0"));
+        case 6: // First digit of day
+            return isDigit(c) || (c == '3' && isValidMonth("0"));
+        case 7: // Second digit of day
+            return isDigit(c);
+        default:
+            return 0;
+    }
+}
+
+
+
+
+            // Function to check if a character is a valid ticket character
+    int isValidTicketChar(char c, int position) {
+        switch (position) {
+            case 0: // First digit of year (thousands)
+            case 1: // Second digit of year (hundreds)
+            case 2: // Third digit of year (tens)
+            case 3: // Fourth digit of year (units)
+                return isDigit(c);
+            case 4: // First digit of month
+            case 5: // Second digit of month
+            case 6: // First digit of day
+            case 7: // Second digit of day
+                return isValidDateChar(c, position - 4);
+            case 8: // Departure airport code (alphabet)
+            case 9: // Arrival airport code (alphabet)
+                return isAlphabet(c);
+            case 10: // First digit of row
+                return isDigit(c) && c >= '1' && c <= '9';
+            case 11: // Second digit of row (optional)
+                return isDigit(c);
+            case 12: // Seat letter
+                return isValidSeatLetter(c);
+            case 13: // Seat type
+                return isAlphabet(c);
+            default:
+                return 0;
+        }
+    }
+
+    // Function to check if a character is a valid seat (A01A)
+    int isValidSeat(char* ticket, int first_row, int last_row) {
+        int len = strlen(ticket);
+        return len == 14 && isValidTicketChar(ticket[0], 0) && isValidTicketChar(ticket[1], 1)
+            && isValidTicketChar(ticket[2], 2) && isValidTicketChar(ticket[3], 3)
+            && isValidTicketChar(ticket[4], 4) && isValidTicketChar(ticket[5], 5)
+            && isValidTicketChar(ticket[6], 6) && isValidTicketChar(ticket[7], 7)
+            && isValidTicketChar(ticket[8], 8) && isValidTicketChar(ticket[9], 9)
+            && isValidTicketChar(ticket[10], 10) && isValidTicketChar(ticket[11], 11)
+            && isValidTicketChar(ticket[12], 12) && isValidTicketChar(ticket[13], 13)
+            && getRow(ticket) >= first_row && getRow(ticket) <= last_row;
+    }
+
+    // Function to check if two tickets are adjacent
+    bool isAdjacent(char* ticket1, char* ticket2) {
+        int row1 = getRow(ticket1);
+        int row2 = getRow(ticket2);
+
+        return abs(row1 - row2) == 1;
+    }
+
+    // Function to check if one ticket is behind the other
+    bool isBehind(char* ticket1, char* ticket2) {
+        int row1 = getRow(ticket1);
+        int row2 = getRow(ticket2);
+
+        return row1 > row2;
+    }
+
+    // Function to check if two tickets are connecting flights
+    bool isConnectingFlight(char* ticket1, char* ticket2) {
+        char arrival1[4];
+        char departure2[4];
+
+        strncpy(arrival1, ticket1 + 8, 3);
+        arrival1[3] = '\0';
+
+        strncpy(departure2, ticket2 + 8, 3);
+        departure2[3] = '\0';
+
+        return strcmp(arrival1, departure2) == 0;
+    }
+
+    // Function to get the seat type (Window, Aisle, or Middle)
+    const char* getSeatType(char* ticket) {
+        char seatType = ticket[13];
+
+        switch (seatType) {
+            case 'A':
+                return "Aisle";
+            case 'W':
+                return "Window";
+            case 'M':
+                return "Middle";
+            default:
+                return "Unknown";
+        }
+    }
+
+    // Function to change the seat in a ticket
+    void changeSeat(char* ticket, char* row_num, char seat) {
+        if (isValidRowNumber(row_num) && isValidSeatLetter(seat)) {
+            ticket[10] = row_num[0];
+            if (isDigit(row_num[1])) {
+                ticket[11] = row_num[1];
+            }
+            ticket[12] = seat;
+        } else {
+            printf("Invalid row number or seat. Seat not changed.\n");
+        }
+    }
+
+    // Function to change the date in a ticket
+    char* changeDate(char* ticket, char* day, char* month, char* year) {
+        char newDate[9];
+        snprintf(newDate, sizeof(newDate), "%s%s%s", year, month, day);
+
+        if (isValidDate(newDate)) {
+            strncpy(ticket, newDate, 8);
+            return strdup(ticket);
+        } else {
+            printf("Invalid date format. Date not changed.\n");
+            return NULL;
+        }
+    }
+
+    // Function to display the menu options
+    void showMenu() {
+        printf("\n********************************************\n");
+        printf("           Flight Reservation Menu           \n");
+        printf("********************************************\n\n");
+        printf("1. Make Reservation\n");
+        printf("2. Cancel Reservation\n");
+        printf("3. Display Reservations\n");
+        printf("4. Save Reservations to File\n");
+        printf("5. Exit\n\n");
+    }
+
+    // Function to make a reservation
+    void makeReservation(int* seatCounter) {
+        struct FlightReservation reservation;
+
+        printf("Enter Passport Number: ");
+        scanf("%s", reservation.passport);
+
+        printf("Enter Full Name: ");
+        scanf("%s", reservation.name);
+
+        printf("Enter Email Address: ");
+        scanf("%s", reservation.email);
+
+        printf("Enter Destination: ");
+        scanf("%s", reservation.destination);
+
+        printf("Enter Seat Type (W - Window, A - Aisle, M - Middle): ");
+        char seatType;
+        scanf(" %c", &seatType);
+
+        char seatLetter;
+        printf("Enter Seat Letter (A, B, C, ...): ");
+        scanf(" %c", &seatLetter);
+
+        char row[3];
+        printf("Enter Row Number: ");
+        scanf("%s", row);
+
+        if (isValidRowNumber(row) && isValidSeatLetter(seatLetter)) {
+            snprintf(reservation.passport, sizeof(reservation.passport), "%d", (*seatCounter)++);
+            snprintf(reservation.destination, sizeof(reservation.destination), "%s%s%s", reservation.destination, " ", row);
+            reservation.seatNumber = atoi(row);
+            reservation.seatNumber *= 10;
+            reservation.seatNumber += (seatLetter - 'A' + 1);
+            printf("Reservation Successful!\n");
+        } else {
+            printf("Invalid row number or seat. Reservation failed.\n");
+        }
+    }
+
+    // Function to cancel a reservation
+    void cancelReservation() {
+        printf("Cancellation feature not implemented yet.\n");
+    }
+
+    // Function to display reservations
+    void displayReservations() {
+        printf("Displaying reservations feature not implemented yet.\n");
+    }
+
+    // Function to save reservations to a file
+    void saveToFile() {
+        printf("Save to file feature not implemented yet.\n");
+    }
+
