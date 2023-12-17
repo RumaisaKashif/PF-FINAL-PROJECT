@@ -1,7 +1,9 @@
-//Programmers: Rumaisa Kashif , Areeba Hasnain , Emman Abrar Ali.
-//Flight Management System.
+/*
+Programmers: Rumaisa Kashif , Areeba Hasnain , Emman Abrar Ali.
+Flight Management System
+*/
 
-//Basic Library Inlcusions
+// Basic Library Header Inclusions
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
@@ -10,7 +12,7 @@
 #include <termios.h>
 #include <unistd.h>
 
-//Defining symbolic names for literal characters.
+// Defining symbolic names for literal characters.
 
 #define SA 'A'
 #define SB 'B'
@@ -64,8 +66,7 @@ void cancelReservation(struct FlightReservation** head);
 void displayReservations(struct FlightReservation* head);
 void saveToFile(struct FlightReservation* head);
 
-//Flight Ticket Header Format.
-
+// Function to print formatter header
 void printHeader() {
     printf("*********************************************************************************\n");
     printf("*###############################################################################*\n");
