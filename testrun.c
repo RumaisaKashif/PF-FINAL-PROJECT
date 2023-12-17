@@ -637,7 +637,7 @@ void makeReservation(struct FlightReservation** head, int* seatCounter) {
     newReservation->seatNumber = seatNumber;
     newReservation->next = NULL;
 
-    // Add the new reservation to the linked list
+    // Add the new reservation 
     if (*head == NULL) {
         *head = newReservation;
     } else {
