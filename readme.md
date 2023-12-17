@@ -131,9 +131,16 @@ Dynamic memory allocation through `malloc` is employed to allocate memory for va
 
 - Memory for date, year, month, day, departure code, arrival code, and new ticket strings is allocated using dynamic memory allocation.
 
-## Major Problems Faced
+## Major Challenges Encountered
 
--The total compilation of the different functions and their respective applications was a challenge.
--The concept and application of filing due to limited expertise in the area delayed completion.
--Organisation and structure of the overall code.
--Creating a more diverse set of functions for greater and more detailed outputs.
+1. **Integration of Functions:**
+   - Coordinating the compilation of various functions and aligning them with their intended applications proved to be a significant challenge.
+
+2. **Filing Process:**
+   - Limited expertise in the area of filing hindered progress as we grappled with understanding and applying the concepts efficiently.
+
+3. **Code Organization and Structure:**
+   - Establishing a clear and effective organization for the entire codebase presented difficulties, impacting readability and maintainability.
+
+4. **Function Diversity and Output Detail:**
+   - Enhancing the variety of functions to generate more comprehensive and detailed outputs emerged as a priority for achieving greater utility and effectiveness.
