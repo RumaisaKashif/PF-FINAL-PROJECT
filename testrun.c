@@ -178,7 +178,7 @@ int main()
     printf("Seat %c\n", seat);
     printf("Seat type: %s\n", getSeatType(ticket1));
     
-    //Seat and row validation
+    // Seat and row validation
     printf("Is valid seat: %s\n", isValidSeat(ticket1, first_row, last_row) ? "true" : "false");
     printf("Is valid date: %s\n", isValidDate(ticket1) ? "true" : "false");
     printf("Is valid ticket: %s\n", isValidTicket(ticket1, first_row, last_row) ? "true" : "false");
@@ -205,7 +205,7 @@ int main()
         printf("Enter new seat number:\n");
         scanf(" %c", &new_seat);
         changeSeat(ticket1, new_row, new_seat);
-        //check if new ticket is a valid ticket
+        // Check if new ticket is a valid ticket
         if (!isValidTicket(ticket1, first_row, last_row))
         {
             printf("Invalid New Ticket!\n");
@@ -216,8 +216,10 @@ int main()
     
     char datechange;
     char new_year[5], new_month[3], new_day[3];
+    
     printf("Press 'd' to change date, press any other alphabet to skip.\n");
     scanf(" %c", &datechange);
+    
     if (datechange=='d')
     {
         printf("Enter updated day:\n");
@@ -226,8 +228,9 @@ int main()
         scanf(" %s", new_month);
         printf("Enter updated year:\n");
         scanf(" %s", new_year);
+        
         char* newTicketNumber2= changeDate(ticket1, new_day, new_month, new_year);
-        //check if new ticket is a valid ticket
+        // Check if new ticket is a valid ticket
         if (!isValidTicket(newTicketNumber2, first_row, last_row))
         {
             printf("Invalid New Ticket!\n");
@@ -246,7 +249,8 @@ int main()
        scanf("%d", &choice);
        fflush(stdin); // Clear input buffer
 
-       switch (choice) {
+       switch (choice) 
+       {
            case 1:
                makeReservation(&reservations, &seatCounter);
                break;
@@ -266,7 +270,8 @@ int main()
                printf("\nInvalid choice. Please enter a number between 1 and 5.\n");
       }
 
-      if (choice != 5) {
+      if (choice != 5) 
+      {
            printf("\nPress Enter to continue...");
            getChar(); // Wait for user to press Enter
       }
@@ -276,12 +281,13 @@ int main()
    // Free allocated memory before exiting
   struct FlightReservation* current = reservations;
   struct FlightReservation* next;
-  while (current != NULL) {
+  while (current != NULL) 
+  {
        next = current->next;
         free(current);
         current = next;
    }
-}//Main Function Ends
+}// Main Function Ends
 
 //Check and compare passwords
 int checkPassword() 
