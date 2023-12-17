@@ -228,7 +228,7 @@ int main()
         printf("New ticket number is: %s\n", newTicketNumber2);
         free(newTicketNumber2);
     }
-     struct FlightReservation* reservations = NULL; // Head of the linked list
+     struct FlightReservation* reservations = NULL; 
    int seatCounter = 1; // Counter for seat numbers
 
    int choice;
