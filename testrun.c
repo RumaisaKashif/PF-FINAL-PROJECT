@@ -621,7 +621,8 @@ void makeReservation(struct FlightReservation** head, int* seatCounter)
 {
     // Create a new reservation node
     struct FlightReservation* newReservation = (struct FlightReservation*)malloc(sizeof(struct FlightReservation));
-    if (newReservation == NULL) {
+    if (newReservation == NULL) 
+    {
         printf("Memory allocation error.\n");
         exit(1);
     }
@@ -746,15 +747,18 @@ void displayReservations(struct FlightReservation* head) {
 }
 
 // Function to save reservations to a file
-void saveToFile(struct FlightReservation* head) {
-    FILE* filePointer = fopen("FlightRecords.txt", "a");
-    if (filePointer == NULL) {
-        printf("\nError opening file for writing.\n");
+void saveToFile(struct FlightReservation* head) 
+{
+    FILE* filePointer = fopen("FlightRecords.txt", "a");// Access file in append mode
+    if (filePointer == NULL) 
+    {
+        printf("\nError opening file for appending.\n");
         return;
     }
 
     struct FlightReservation* current = head;
-    while (current != NULL) {
+    while (current != NULL) 
+    {
         fprintf(filePointer, "Passport Number: %s\n", current->passport);
         fprintf(filePointer, "Name: %s\n", current->name);
         fprintf(filePointer, "Email Address: %s\n", current->email);
@@ -763,8 +767,8 @@ void saveToFile(struct FlightReservation* head) {
         fprintf(filePointer, "\n++*=============================================*++\n\n");
         current = current->next;
     }
-
+    // Display confirmation message
     printf("\nFlight reservations have been saved to 'FlightRecords.txt'.\n");
 
     fclose(filePointer);
-}//end file 
+} // End file 
