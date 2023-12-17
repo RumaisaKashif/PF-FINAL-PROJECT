@@ -139,7 +139,7 @@ int main()
     // Code to execute if the password is correct and meets the conditions
     printf("Welcome to the system! Accessing flight ticket information...\n");
 
-    //test cases
+    // Test cases
     char ticket1[] = "20231121ABCDEF25A";
     char ticket2[] = "20231121DEFGHI26A";
     
