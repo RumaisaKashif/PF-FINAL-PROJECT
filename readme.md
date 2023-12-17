@@ -21,7 +21,7 @@ The Flight Ticket Management System is a sophisticated software solution designe
 - [Data Structures](#data-structures)
   - [Character Arrays](#character-arrays)
   - [Dynamic Memory Allocation](#dynamic-memory-allocation)
-- [Major Problems Faced](#major-problems-faced)
+- [Major Challenges Encountered](#major-challenges-encountered)
 
 ## Key Features
 
