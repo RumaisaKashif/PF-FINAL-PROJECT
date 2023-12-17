@@ -356,15 +356,16 @@ char* getYear(char* ticket)
 {
     int yearLen=4;
     int startIndex=0;
-    //Allocate memory
+    // Allocate memory
     char* year= (char*)malloc((yearLen + 1) * sizeof(char));
-    //Check if memory allocation was successful
-    if (year == NULL) {
+    // Check if memory allocation was successful
+    if (year == NULL) 
+    {
         fprintf(stderr, "Memory allocation failed\n");
         exit(EXIT_FAILURE);
     }
     memcpy(year, ticket + startIndex, yearLen);
-    year[yearLen] = '\0'; //Null-terminate the year string
+    year[yearLen] = '\0'; // Null-terminate the year string
     return year;
 }
 
@@ -372,15 +373,15 @@ char* getMonth(char* ticket)
 {
     int monthLen=2;
     int startIndex=4;
-    //Allocate memory
+    // Allocate memory
     char* month= (char*)malloc((monthLen + 1) * sizeof(char));
-    //Check if memory allocation was successful
+    // Check if memory allocation was successful
     if (month == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
         exit(EXIT_FAILURE);
     }
     memcpy(month, ticket + startIndex, monthLen);
-    month[monthLen] = '\0'; //Null-terminate the month string
+    month[monthLen] = '\0'; // Null-terminate the month string
     return month;
 }
 
@@ -388,15 +389,16 @@ char* getDay(char* ticket)
 {
     int dayLen=2;
     int startIndex=6;
-    //Allocate memory
+    // Allocate memory
     char* day= (char*)malloc((dayLen + 1) * sizeof(char));
-    //Check if memory allocation was successful
-    if (day == NULL) {
+    // Check if memory allocation was successful
+    if (day == NULL) 
+    {
         fprintf(stderr, "Memory allocation failed\n");
         exit(EXIT_FAILURE);
     }
     memcpy(day, ticket + startIndex, dayLen);
-    day[dayLen] = '\0'; //Null-terminate the day string
+    day[dayLen] = '\0'; // Null-terminate the day string
     return day;
 }
 
@@ -404,15 +406,15 @@ char* getDepartureCode(char* ticket)
 {
     int depLen=3;
     int startIndex=8;
-    //Allocate memory
+    // Allocate memory
     char* dep= (char*)malloc((depLen + 1) * sizeof(char));
-    //Check if memory allocation was successful
+    // Check if memory allocation was successful
     if (dep == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
         exit(EXIT_FAILURE);
     }
     memcpy(dep, ticket + startIndex, depLen);
-    dep[depLen] = '\0'; //Null-terminate the dep string
+    dep[depLen] = '\0'; // Null-terminate the dep string
     return dep;
 }
 
@@ -420,40 +422,40 @@ char* getArrivalCode(char* ticket)
 {
     int arrLen=3;
     int startIndex=11;
-    //Allocate memory
+    // Allocate memory
     char* arr= (char*)malloc((arrLen + 1) * sizeof(char));
-    //Check if memory allocation was successful
+    // Check if memory allocation was successful
     if (arr == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
         exit(EXIT_FAILURE);
     }
     memcpy(arr, ticket + startIndex, arrLen);
-    arr[arrLen] = '\0'; //Null-terminate the arr string
+    arr[arrLen] = '\0'; // Null-terminate the arr string
     return arr;
 }
 
-//Extract row number from ticket as an integer
+// Extract row number from ticket as an integer
 int getRow(char* ticket)
 {
     int rowLen=2;
     int startIndex=14;
     char rowTemp[rowLen+1];
-    //Copy the row characters to a temporary string
+    // Copy the row characters to a temporary string
     memcpy(rowTemp, ticket + startIndex, rowLen);
-    rowTemp[rowLen] = '\0'; //Null-terminate the temporary row string
-    //Convert temporary string to integer using atoi function
+    rowTemp[rowLen] = '\0'; // Null-terminate the temporary row string
+    // Convert temporary string to integer using atoi function
     int row = atoi(rowTemp);
     return row;
 }
 
-//Extract Seat
+// Extract Seat
 char getSeatNumber(char* ticket)
 {
     int startIndex= 16;
     return ticket[startIndex];
 }
 
-//Declaring seat type
+// Declaring type of seat assigned
 const char* getSeatType(char* ticket)
 {
     
@@ -472,7 +474,7 @@ const char* getSeatType(char* ticket)
     }
 }
 
-//Seat and Row Validation
+// Seat and Row Validation function
 bool isValidSeat(char* ticket, int first_row, int last_row)
 {
     char seat= getSeatNumber(ticket);
@@ -481,10 +483,10 @@ bool isValidSeat(char* ticket, int first_row, int last_row)
     (seat==SA || seat==SB || seat==SC || seat==SD || seat==SE || seat==SF);
 }
 
-//Date Validation
+// Date Validation function
 bool isValidDate(char* ticket)
 {
-    //convert year, month, and date strings to integers
+    // Convert date strings to integers using atoi
     int year= atoi(getYear(ticket));
     int month= atoi(getMonth(ticket));
     int day= atoi(getDay(ticket));
@@ -493,31 +495,33 @@ bool isValidDate(char* ticket)
     {
         return false;
     }
+    
     if (month>=1 && month<=12)
     {
-        //odd months uptill July and even months from August onward have 31 days
+        // Odd months uptill July and even months from August onward have 31 days
         if ((month<=7 && month%2==1) || (month>= 8 && month%2==0))
         {
             return day>=1 && day<=31;
         }
-        //for the rest of the months apart from February, there are 30 days
+        // For the rest of the months apart from February, there are 30 days
         if (month!= 2)
         {
             return day>=1 && day <=30;
         }
-        //if it is a leap year, number of days in February are 29
+        // If it is a leap year, number of days in February are 29
         if (year%4== 0 && !(year%200== 0 && year%800!= 0))
         {
             return day>=1 && day<=29;
         }
-        //if it is not a leap year, number of days in February are 28
+        // If it is not a leap year, number of days in February are 28
         return day>=1 && day<=28;
     }
     return false;
 }
 
-//verifying format of ticket string as defined initially
-bool isValidFormat(char* ticket) {
+// Verifying format of ticket string as defined at the beginning of the c file
+bool isValidFormat(char* ticket) 
+{
     return (strlen(ticket)==17)
     && isdigit(ticket[0]) && isdigit(ticket[1]) && isdigit(ticket[2]) && isdigit(ticket[3])
            && isdigit(ticket[4]) && isdigit(ticket[5])
@@ -530,8 +534,9 @@ bool isValidFormat(char* ticket) {
   in the beginning and using indices instead of numbers. */
 }
 
-//Classifying a valid ticket
-bool isValidTicket(char* ticket, int first_row, int last_row) {
+// Classifying a valid ticket
+bool isValidTicket(char* ticket, int first_row, int last_row) 
+{
     if (isValidFormat(ticket))
     {
         return (isValidSeat(ticket, first_row, last_row) && isValidDate(ticket) &&
@@ -540,13 +545,13 @@ bool isValidTicket(char* ticket, int first_row, int last_row) {
     return false;
 }
 
-//to test for connecting flights
+// To test for connecting flights
 bool isConnectingFlight(char* ticket1, char* ticket2) {
     return (strcmp(getDate(ticket1), getDate(ticket2))==0) &&
            (strcmp(getArrivalCode(ticket1), getDepartureCode(ticket2))==0);
 }
 
-//to test whether two seats are adjacent to one another
+// To test whether two seats are adjacent to one another
 bool isAdjacent(char* ticket1, char* ticket2)
 {
     char seat1= getSeatNumber(ticket1);
@@ -561,7 +566,7 @@ bool isAdjacent(char* ticket1, char* ticket2)
             (seat1== SE && seat2== SF) || (seat1== SF && seat2== SE));
 }
 
-//to test whether two seats are behind one another
+// Function to test whether two seats are behind one another
 bool isBehind(char* ticket1, char* ticket2) {
     char seat1 = getSeatNumber(ticket1);
     char seat2 = getSeatNumber(ticket2);
@@ -571,7 +576,7 @@ bool isBehind(char* ticket1, char* ticket2) {
     return ((row1 - row2)==1 || (row1 - row2)==-1)  && seat1==seat2;
 }
 
-//to change seat
+// Function to change seat
 void changeSeat(char* ticket, char* row_num, char seat) 
 {
     ticket[14]=row_num[0];
@@ -579,7 +584,7 @@ void changeSeat(char* ticket, char* row_num, char seat)
     ticket[16]=seat;
 }
 
-//to change date
+// Function to change date
 char* changeDate(char* ticket, char* day, char* month, char* year)
 {
     char* new_ticket= (char*)malloc(18 * sizeof(char));
@@ -597,8 +602,9 @@ char* changeDate(char* ticket, char* day, char* month, char* year)
     free(new_ticket);
 }
 
-// Display menu options
-void showMenu() {
+// Function to display menu options
+void showMenu() 
+{
     printf("**********************************************\n");
     printf("        Flight Management System Menu\n");
     printf("**********************************************\n\n");
@@ -610,7 +616,8 @@ void showMenu() {
 }//End Menu 
 
 // Function to make a reservation
-void makeReservation(struct FlightReservation** head, int* seatCounter) {
+void makeReservation(struct FlightReservation** head, int* seatCounter) 
+{
     // Create a new reservation node
     struct FlightReservation* newReservation = (struct FlightReservation*)malloc(sizeof(struct FlightReservation));
     if (newReservation == NULL) {
@@ -632,15 +639,18 @@ void makeReservation(struct FlightReservation** head, int* seatCounter) {
 
     // Find an available seat
     int seatNumber = -1;
-    for (int i = 1; i < MAX_SEATS; ++i) {
-        if (seatAvailability[i] == 0) {
+    for (int i = 1; i < MAX_SEATS; ++i) 
+    {
+        if (seatAvailability[i] == 0) 
+        {
             seatNumber = i;
-            seatAvailability[i] = 1; // Mark the seat as taken
+            seatAvailability[i] = 1; // Mark the seats as taken
             break;
         }
     }
 
-    if (seatNumber == -1) {
+    if (seatNumber == -1) 
+    {
         printf("\nSorry, all seats are taken.\n");
         free(newReservation);
         return;
@@ -651,11 +661,15 @@ void makeReservation(struct FlightReservation** head, int* seatCounter) {
     newReservation->next = NULL;
 
     // Add the new reservation 
-    if (*head == NULL) {
+    if (*head == NULL) 
+    {
         *head = newReservation;
-    } else {
+    } 
+    else 
+    {
         struct FlightReservation* current = *head;
-        while (current->next != NULL) {
+        while (current->next != NULL) 
+        {
             current = current->next;
         }
         current->next = newReservation;
@@ -666,8 +680,10 @@ void makeReservation(struct FlightReservation** head, int* seatCounter) {
 }
 
 // Function to cancel a reservation
-void cancelReservation(struct FlightReservation** head) {
-    if (*head == NULL) {
+void cancelReservation(struct FlightReservation** head) 
+{
+    if (*head == NULL) 
+    {
         printf("\nNo reservations to cancel.\n");
         return;
     }
@@ -679,17 +695,24 @@ void cancelReservation(struct FlightReservation** head) {
     struct FlightReservation* current = *head;
     struct FlightReservation* prev = NULL;
 
-    while (current != NULL && strcmp(current->passport, passportToCancel) != 0) {
+    while (current != NULL && strcmp(current->passport, passportToCancel) != 0) 
+    {
         prev = current;
         current = current->next;
     }
 
-    if (current == NULL) {
+    if (current == NULL) 
+    {
         printf("\nReservation not found for Passport Number: %s\n", passportToCancel);
-    } else {
-        if (prev == NULL) {
+    } 
+    else 
+    {
+        if (prev == NULL) 
+        {
             *head = current->next;
-        } else {
+        } 
+        else 
+        {
             prev->next = current->next;
         }
 
