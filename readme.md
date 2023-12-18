@@ -129,11 +129,17 @@ Character arrays, commonly referred to as strings, are extensively used in the c
 
 Dynamic memory allocation through `malloc` is employed to allocate memory for various components:
 
-- Memory for Date Components: Memory is dynamically allocated for date, year, month, and day strings in functions like getDate, getYear, getMonth, and getDay.
+- **Memory for Date Components:** Memory is dynamically allocated for date, year, month, and day strings in functions like getDate, getYear, getMonth, and getDay.
 
-- Memory for Airport Codes: Dynamic memory allocation is used to store departure and arrival codes (dep and arr) extracted from the ticket.
+- **Memory for Airport Codes:** Dynamic memory allocation is used to store departure and arrival codes (dep and arr) extracted from the ticket.
 
-- Memory for New Ticket: The changeDate function dynamically allocates memory for creating a new ticket string with modified date components.
+- **Memory for New Ticket:** The changeDate function dynamically allocates memory for creating a new ticket string with modified date components.
+
+### Pointers
+- Pointers are used extensively for dynamic memory allocation, string manipulation, and file handling.
+
+### Constants
+- Constants like `SA`, `SB`, `SC`, `SD`, `SE`, `SF`, `WINDOW`, `AISLE`, `MIDDLE`, `MAX_PASSWORD_LENGTH`: Used to represent seat codes, seat types, and maximum password length.
 
 ## Major Challenges Encountered
 
