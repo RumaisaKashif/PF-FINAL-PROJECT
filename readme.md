@@ -138,6 +138,19 @@ Dynamic memory allocation through `malloc` is employed to allocate memory for va
 ### Pointers
 - Pointers are used extensively for dynamic memory allocation, string manipulation, and file handling.
 
+### File Handling
+
+- **Saving Reservations to File**
+In the code, file handling is employed to save flight reservations to a file named "FlightRecords.txt." The functionality is encapsulated in the `saveToFile` function. Here's how it works:
+
+1. The function opens the file "FlightRecords.txt" in append mode (`"a"`).
+2. It checks if the file opening was successful; if not, it prints an error message and exits.
+3. It traverses the linked list of flight reservations.
+4. For each reservation, it writes details such as passport number, name, email address, seat number, destination, and a separator line to the file.
+5. Finally, it prints a message to the console indicating that the flight reservations have been saved to the file.
+
+This file handling mechanism ensures that reservation information is persisted between different program executions, allowing users to retrieve previously made reservations.
+
 ### Constants
 - Constants like `SA`, `SB`, `SC`, `SD`, `SE`, `SF`, `WINDOW`, `AISLE`, `MIDDLE`, `MAX_PASSWORD_LENGTH`: Used to represent seat codes, seat types, and maximum password length.
 
