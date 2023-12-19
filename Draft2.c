@@ -234,7 +234,308 @@ char* getDate(char* ticket)
     int startIndex=0;
     //Allocate memory for the date
     char* date = (char*)malloc((dateLen + 1) * sizeof(char));
+    //Check if memory alloc#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+#define SA 'A'
+#define SB 'B'
+#define SC 'C'
+#define SD 'D'
+#define SE 'E'
+#define SF 'F'
+#define WINDOW "Window"
+#define AISLE "Aisle"
+#define MIDDLE "Middle"
+#define MAX_PASSWORD_LENGTH 50
+
+//Ticket format: (YYYY)(MM)(DD)(DEP)(ARR)(ROW)(SEAT)
+
+// Function prototypes
+int checkPassword();
+char* getDate(char* ticket);//
+char* getYear(char* ticket);//
+char* getMonth(char* ticket);//
+char* getDay(char* ticket);//
+char* getDepartureCode(char* ticket);//
+char* getArrivalCode(char* ticket);//
+int getRow(char* ticket);//
+char getSeatNumber(char* ticket);//
+bool isValidSeat(char* ticket, int first_row, int last_row);//
+bool isValidDate(char* ticket);//
+bool isValidTicket(char* ticket, int first_row, int last_row);//
+bool visits_airport(char* ticket, char* airport);
+bool isConnectingFlight(char* ticket1, char* ticket2);//
+bool isAdjacent(char* ticket1, char* ticket2);
+bool isBehind(char* ticket1, char* ticket2);
+const char* getSeatType(char* ticket);//
+bool isValidFormat(char* ticket);//
+void changeSeat(char* ticket, char* row_num, char seat);//
+char* changeDate(char* ticket, char* day, char* month, char* year);//
+
+void printHeader()
+{
+    printf("*********************************************************************************\n");
+    printf("*###############################################################################*\n");
+    printf("*#*****************************************************************************#*\n");
+    printf("*#*                                                                           *#*\n");
+    printf("*#*                                                                           *#*\n");
+    printf("*#*                                                                           *#*\n");
+    printf("*#*                                                                           *#*\n");
+    printf("*#*                           FLIGHT TICKET SYSTEM                            *#*\n");
+    printf("*#*                                                                           *#*\n");
+    printf("*#*                                                                           *#*\n");
+    printf("*#*                                                                           *#*\n");
+    printf("*#*                                                                           *#*\n");
+    printf("*#*****************************************************************************#*\n");
+    printf("*###############################################################################*\n");
+    printf("*********************************************************************************\n");
+
+}
+
+int main()
+{
+    printHeader();
+    printf("\n");
+    printf("\n");
+
+    int isAuthenticated = 0;
+
+    // Continuously prompt for password until correct password is entered
+    while (!isAuthenticated) 
+    {
+        // Call the function to check and compare passwords
+        isAuthenticated = checkPassword();
+
+        if (!isAuthenticated) 
+        {
+            // Code to execute if the password is incorrect or does not meet the conditions
+            printf("Please try again.\n");
+        }
+    }
+
+    // Code to execute if the password is correct and meets the conditions
+    printf("Welcome to the system! Accessing flight ticket information...\n");
+
+    //test cases
+    char ticket1[] = "20231121ABCDEF25A";
+    char ticket2[] = "20231121DEFGHI26A";
+    
+    int first_row, last_row;
+    printf("Enter the number of the first row and the last row: \n");
+    scanf("%d %d", &first_row, &last_row);
+    
+    char* date = getDate(ticket1);
+    printf("Date (YYYYMMDD) is: %s\n", date);
+    free(date);
+    
+    char* year= getYear(ticket1);
+    printf("Year (YYYY) is: %s\n", year);
+    free(year);
+    
+    char* month= getMonth(ticket1);
+    printf("Month (MM) is: %s\n", month);
+    free(month);
+    
+    char* day= getDay(ticket1);
+    printf("Day (DD) is: %s\n", day);
+    free(day);
+    
+    char* dep= getDepartureCode(ticket1);
+    printf("Departure Aiport code is: %s\n", dep);
+    free(dep);
+    
+    char* arr= getArrivalCode(ticket1);
+    printf("Arrival Airport code is: %s\n", arr);
+    free(arr);
+    
+    int row= getRow(ticket1);
+    printf("Row number is: %d\n", row);
+    
+    char seat= getSeatNumber(ticket1);
+    printf("Seat %c\n", seat);
+    printf("Seat type: %s\n", getSeatType(ticket1));
+    
+    //Seat and row validation
+    printf("Is valid seat: %s\n", isValidSeat(ticket1, first_row, last_row) ? "true" : "false");
+    printf("Is valid date: %s\n", isValidDate(ticket1) ? "true" : "false");
+    printf("Is valid ticket: %s\n", isValidTicket(ticket1, first_row, last_row) ? "true" : "false");
+    if (!isValidTicket(ticket1, first_row, last_row))
+    {
+        printf("Invalid Ticket!\n");
+        return 0;
+    }
+    
+    printf("Adjacent: %s\n", isAdjacent(ticket1, ticket2) ? "true" : "false");
+    
+    printf("Behind: %s\n", isBehind(ticket1, ticket2) ? "true" : "false");
+    
+    printf("Connecting flight: %s\n", isConnectingFlight(ticket1, ticket2) ? "true" : "false");
+    
+    char seatchange, new_seat;
+    char new_row[3];
+    printf("Press 's' to change seat, press any other alphabet to skip.\n");
+    scanf(" %c", &seatchange);
+    if (seatchange=='s')
+    {
+        printf("Enter new row number:\n");
+        scanf(" %s", new_row);
+        printf("Enter new seat number:\n");
+        scanf(" %c", &new_seat);
+        changeSeat(ticket1, new_row, new_seat);
+        //check if new ticket is a valid ticket
+        if (!isValidTicket(ticket1, first_row, last_row))
+        {
+            printf("Invalid New Ticket!\n");
+            return 0;
+        }
+        printf("New ticket number is: %s\n", ticket1);
+    }
+    
+    char datechange;
+    char new_year[5], new_month[3], new_day[3];
+    printf("Press 'd' to change date, press any other alphabet to skip.\n");
+    scanf(" %c", &datechange);
+    if (datechange=='d')
+    {
+        printf("Enter updated day:\n");
+        scanf(" %s", new_day);
+        printf("Enter updated month:\n");
+        scanf(" %s", new_month);
+        printf("Enter updated year:\n");
+        scanf(" %s", new_year);
+        char* newTicketNumber2= changeDate(ticket1, new_day, new_month, new_year);
+        //check if new ticket is a valid ticket
+        if (!isValidTicket(newTicketNumber2, first_row, last_row))
+        {
+            printf("Invalid New Ticket!\n");
+            return 0;
+        }
+        printf("New ticket number is: %s\n", newTicketNumber2);
+        free(newTicketNumber2);
+    }
+}
+
+//Check and compare passwords
+int checkPassword() 
+{
+    char storedPassword[MAX_PASSWORD_LENGTH] = "Secure123"; 
+    char enteredPassword[MAX_PASSWORD_LENGTH];
+
+    // Prompt user for password
+    printf("Enter your password: ");
+    fgets(enteredPassword, MAX_PASSWORD_LENGTH, stdin);
+
+    // Remove newline character from entered password
+    enteredPassword[strcspn(enteredPassword, "\n")] = '\0';
+
+    // Check password conditions
+    int length = strlen(enteredPassword);
+    int hasUppercase = 0;
+    int hasLowercase = 0;
+    int hasDigit = 0;
+
+    for (int i = 0; i < length; ++i) {
+        if (isupper(enteredPassword[i])) {
+            hasUppercase = 1;
+        } else if (islower(enteredPassword[i])) {
+            hasLowercase = 1;
+        } else if (isdigit(enteredPassword[i])) {
+            hasDigit = 1;
+        }
+    }
+
+    // Check if all conditions are met
+    if (length >= 8 && hasUppercase && hasLowercase && hasDigit) {
+        if (strcmp(enteredPassword, storedPassword) == 0) {
+            printf("Password is correct. Access granted.\n");
+            return 1; // Passwords match and conditions are met
+        } else {
+            printf("Incorrect password. Access denied.\n");
+        }
+    } else {
+        printf("Password does not meet the requirements. Access denied.\n");
+    }
+
+    return 0; // Passwords do not match or conditions are not met
+}
+
+//Extract date
+char* getDate(char* ticket)
+{
+    
+    int dateLen=8;
+    int startIndex=0;
+    //Allocate memory for the date
+    char* date = (char*)malloc((dateLen + 1) * sizeof(char));
     //Check if memory allocation was successful
+    if (date == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+    memcpy(date, ticket + startIndex, dateLen);
+    date[dateLen] = '\0'; //Null-terminate the date string
+    return date;
+}
+
+//Extract year, month, and day
+char* getYear(char* ticket)
+{
+    int yearLen=4;
+    int startIndex=0;
+    //Allocate memory
+    char* year= (char*)malloc((yearLen + 1) * sizeof(char));
+    //Check if memory allocation was successful
+    if (year == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+    memcpy(year, ticket + startIndex, yearLen);
+    year[yearLen] = '\0'; //Null-terminate the year string
+    return year;
+}
+
+char* getMonth(char* ticket)
+{
+    int monthLen=2;
+    int startIndex=4;
+    //Allocate memory
+    char* month= (char*)malloc((monthLen + 1) * sizeof(char));
+    //Check if memory allocation was successful
+    if (month == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+    memcpy(month, ticket + startIndex, monthLen);
+    month[monthLen] = '\0'; //Null-terminate the month string
+    return month;
+}
+
+char* getDay(char* ticket)
+{
+    int dayLen=2;
+    int startIndex=6;
+    //Allocate memory
+    char* day= (char*)malloc((dayLen + 1) * sizeof(char));
+    //Check if memory allocation was successful
+    if (day == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+    memcpy(day, ticket + startIndex, dayLen);
+    day[dayLen] = '\0'; //Null-terminate the day string
+    return day;
+}
+
+char*],
+            day[0], day[1],
+            ticket[8], ticket[9], ticket[10], ticket[11], ticket[12], ticket[13], ticket[14], ticket[15], ticket[16]);
+    return new_ticket;
+    free(new_ticket);
+}
+ation was successful
     if (date == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
         exit(EXIT_FAILURE);
